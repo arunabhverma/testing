@@ -22,11 +22,25 @@
       // Check if iframe failed to load
       iframe.onerror = function() {
         alert("App is not installed");
+        window.location.href = "https://www.google.com"; // Redirect to Google
       };
+    }
+
+    function openApp() {
+      var uriScheme = 'yourapp://'; // Replace 'yourapp://' with your app's custom URI scheme
+      var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      var isAndroid = /android/i.test(navigator.userAgent);
+
+      if (isIOS || isAndroid) {
+        isAppInstalled(uriScheme);
+      } else {
+        alert("Unknown device");
+        window.location.href = "https://www.google.com"; // Redirect to Google
+      }
     }
   </script>
 </head>
 <body>
-  <button onclick="isAppInstalled('targaai://')">Check App Installation</button>
+  <button onclick="openApp()">Check App Installation</button>
 </body>
 </html>
