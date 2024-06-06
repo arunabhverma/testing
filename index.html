@@ -1,46 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Targa Link</title>
-  <script>
-    function openTargalink() {
-      if (navigator.userAgent.match(/android/i)) {
-        var appUri = "targaai://";
-        var fallbackUrl = "https://play.google.com/store/apps/details?id=com.targa.ai";
-        var iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = appUri;
-        document.body.appendChild(iframe);
-        setTimeout(function() {
-          if (!iframe.contentWindow || iframe.contentWindow.location !== appUri) {
-            window.location = fallbackUrl;
-          } else {
-            window.location = appUri;
-          }
-          document.body.removeChild(iframe);
-        }, 500);
-      } else if (navigator.userAgent.match(/iphone|ipad|ipod/i)) {
-        var appUri = "targaai://";
-        var fallbackUrl = "https://apps.apple.com/in/app/targa-ai/id6449775053";
-        var iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = appUri;
-        document.body.appendChild(iframe);
-        setTimeout(function() {
-          if (!iframe.contentWindow || iframe.contentWindow.location !== appUri) {
-            window.location = fallbackUrl;
-          } else {
-            window.location = appUri;
-          }
-          document.body.removeChild(iframe);
-        }, 500);
-      }
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link</title>
 </head>
 <body>
-  <button onclick="openTargalink()">Open Targa App</button>
+    <script>
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        // Detect iOS devices
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            window.location = 'targaai://';
+            setTimeout(function() {
+                window.location = 'https://apps.apple.com/in/app/targa-ai/id6449775053';
+            }, 2000);
+        }
+
+        // Detect Android devices
+        else if (/android/i.test(userAgent)) {
+            window.location = 'targaai://';
+            setTimeout(function() {
+                window.location = 'https://play.google.com/store/apps/details?id=com.targa.ai';
+            }, 2000);
+        }
+
+        // Fallback for other devices
+        else {
+            window.location = 'https://www.example.com';
+        }
+    </script>
 </body>
 </html>
