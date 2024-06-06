@@ -1,46 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Check App Installation</title>
-  <script>
-    function isAppInstalled(uriScheme) {
-      var iframe = document.createElement("iframe");
-      iframe.style.display = "none";
-      iframe.src = uriScheme;
-      document.body.appendChild(iframe);
-      setTimeout(function() {
-        document.body.removeChild(iframe);
-      }, 3000); // Adjust timeout as needed
-
-      // Check if iframe has loaded
-      iframe.onload = function() {
-        alert("App is installed");
-      };
-
-      // Check if iframe failed to load
-      iframe.onerror = function() {
-        alert("App is not installed");
-        window.location.href = "https://www.google.com"; // Redirect to Google
-      };
-    }
-
-    function openApp() {
-      var uriScheme = 'yourapp://'; // Replace 'yourapp://' with your app's custom URI scheme
-      var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      var isAndroid = /android/i.test(navigator.userAgent);
-
-      if (isIOS || isAndroid) {
-        isAppInstalled(uriScheme);
-      } else {
-        alert("Unknown device");
-        window.location.href = "https://www.google.com"; // Redirect to Google
-      }
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link</title>
 </head>
 <body>
-  <button onclick="openApp()">Check App Installation</button>
+    <script>
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        // Detect iOS devices
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            window.location = 'targaai://';
+            setTimeout(function() {
+                window.location = 'https://apps.apple.com/in/app/targa-ai/id6449775053';
+            }, 2000);
+        }
+
+        // Detect Android devices
+        else if (/android/i.test(userAgent)) {
+            window.location = 'targaai://';
+            setTimeout(function() {
+                window.location = 'https://play.google.com/store/apps/details?id=com.targa.ai';
+            }, 2000);
+        }
+
+        // Fallback for other devices
+        else {
+            window.location = 'https://www.example.com';
+        }
+    </script>
 </body>
 </html>
