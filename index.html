@@ -3,44 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Targa Link</title>
+  <title>Check App Installation</title>
   <script>
-    function openTargalink() {
-      if (navigator.userAgent.match(/android/i)) {
-        var appUri = "targaai://";
-        var fallbackUrl = "https://play.google.com/store/apps/details?id=com.targa.ai";
-        var iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = appUri;
-        document.body.appendChild(iframe);
-        setTimeout(function() {
-          if (!iframe.contentWindow || iframe.contentWindow.location !== appUri) {
-            window.location = fallbackUrl;
-          } else {
-            window.location = appUri;
-          }
-          document.body.removeChild(iframe);
-        }, 500);
-      } else if (navigator.userAgent.match(/iPad|iPhone|iPod/i)) {
-        var appUri = "targaai://";
-        var fallbackUrl = "https://apps.apple.com/in/app/targa-ai/id6449775053";
-        var iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = appUri;
-        document.body.appendChild(iframe);
-        setTimeout(function() {
-          if (!iframe.contentWindow || iframe.contentWindow.location !== appUri) {
-            window.location = fallbackUrl;
-          } else {
-            window.location = appUri;
-          }
-          document.body.removeChild(iframe);
-        }, 500);
-      }
+    function isAppInstalled(uriScheme) {
+      var iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = uriScheme;
+      document.body.appendChild(iframe);
+      setTimeout(function() {
+        document.body.removeChild(iframe);
+      }, 3000); // Adjust timeout as needed
+
+      // Check if iframe has loaded
+      iframe.onload = function() {
+        alert("App is installed");
+      };
+
+      // Check if iframe failed to load
+      iframe.onerror = function() {
+        alert("App is not installed");
+      };
     }
   </script>
 </head>
 <body>
-  <button onclick="openTargalink()">Open Targa App</button>
+  <button onclick="isAppInstalled('targaai://')">Check App Installation</button>
 </body>
 </html>
